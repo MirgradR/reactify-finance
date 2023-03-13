@@ -1,0 +1,26 @@
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid grey;
+  border-radius: 10px;
+  padding: 10px 20px;
+}
+
+.deleteButton {
+  color: red;
+  cursor: pointer;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: grey;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}

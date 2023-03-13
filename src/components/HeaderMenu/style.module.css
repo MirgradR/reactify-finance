@@ -1,0 +1,9 @@
+.list {
+  display: flex;
+  gap: 12px;
+  font-size: 22px;
+}
+
+.active {
+  text-decoration: underline;
+}

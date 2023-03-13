@@ -1,0 +1,11 @@
+.input {
+  border: 1px solid rgba(146, 142, 142, 0.467);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.inputContainer {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
