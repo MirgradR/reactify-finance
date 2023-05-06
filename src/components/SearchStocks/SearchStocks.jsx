@@ -1,24 +1,18 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useQuery } from "react-query";
 import stocksApi from "../../api/stocksApi";
-import { filterStocks } from "../../helpers/filterStocks";
+import { useFilterStocks } from "../../hooks/useFilterStocks";
 import Autocomplete from "./Autocomplete/Autocomplete";
 import SearchInput from "./SearchInput/SearchInput";
 import style from "./style.module.css";
 
 const SearchStocks = ({ addSToFavorites }) => {
   const { data } = useQuery("getStocks", () => stocksApi["getStocks"]());
-  const [value, setValue] = useState("");
-  const [stocks, setStocks] = useState([]);
+  const { setValue, value, stocks } = useFilterStocks(data);
+
   const [focus, setFocus] = useState(false);
 
   const autocompleteRef = useRef(null);
-
-  useEffect(() => {
-    if (!data) return;
-    const filteredStocks = filterStocks(data, value);
-    setStocks(filteredStocks);
-  }, [data, value]);
 
   const onBlurHandler = (e) => {
     setTimeout(() => {
