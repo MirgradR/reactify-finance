@@ -1,6 +1,9 @@
 import { useQuery } from "react-query";
 import stocksApi from "../../../api/stocksApi";
 import style from "./style.module.css";
+import Modal from "../../Modal/Modal";
+import { useRef, useState } from "react";
+import { useOnClickOutside } from "../../../hooks/useOnClickOutside";
 
 const fetchStock = async (symbol) => {
   const price = await stocksApi["getPrice"](symbol);
@@ -12,11 +15,19 @@ const fetchStock = async (symbol) => {
 
 const StockItem = ({ symbol, deleteFromFavorites }) => {
   const { data } = useQuery(`getStock/${symbol}`, () => fetchStock(symbol));
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const modalRef = useRef(null);
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  useOnClickOutside(modalRef, closeModal);
 
   return (
     <li className={style.item}>
       {data ? (
-        <div className={style.info}>
+        <div onClick={() => setIsModalOpen(true)} className={style.info}>
           {data.logo ? (
             <img className={style.logo} src={data.logo} alt={data.name} />
           ) : (
@@ -39,6 +50,7 @@ const StockItem = ({ symbol, deleteFromFavorites }) => {
       >
         Delete
       </p>
+      {isModalOpen ? <Modal data={data} ref={modalRef} /> : null}
     </li>
   );
 };
