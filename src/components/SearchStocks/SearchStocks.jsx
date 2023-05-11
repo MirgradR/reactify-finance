@@ -1,10 +1,11 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import stocksApi from "../../api/stocksApi";
 import { useFilterStocks } from "../../hooks/useFilterStocks";
 import Autocomplete from "./Autocomplete/Autocomplete";
 import SearchInput from "./SearchInput/SearchInput";
 import style from "./style.module.css";
+import { useKeyPress } from "../../hooks/useKeyPress";
 
 const SearchStocks = ({ addSToFavorites }) => {
   const { data } = useQuery("getStocks", () => stocksApi["getStocks"]());
@@ -13,6 +14,14 @@ const SearchStocks = ({ addSToFavorites }) => {
   const [focus, setFocus] = useState(false);
 
   const autocompleteRef = useRef(null);
+
+  const isKeyPressed = useKeyPress("Escape");
+
+  useEffect(() => {
+    if (isKeyPressed) {
+      setValue("");
+    }
+  }, [isKeyPressed]);
 
   const onBlurHandler = (e) => {
     setTimeout(() => {
